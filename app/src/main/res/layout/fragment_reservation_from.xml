@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    tools:context=".ReservationFromFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="Пополнете ги следните полиња \n направете ја посакуваната резервација"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            tools:text="Одберете град и паркинг за вашата резервација:" />
+
+        <EditText
+            android:id="@+id/formcity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/email_background_ok"
+            android:ems="10"
+            android:hint="внесете град"
+            android:inputType="textPersonName"
+            android:padding="8dp" />
+
+        <EditText
+            android:id="@+id/formparking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/formcity"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/email_background_ok"
+            android:ems="10"
+            android:hint="внесете паркинг"
+            android:inputType="textPersonName"
+            android:padding="5dp" />
+
+
+        <EditText
+            android:id="@+id/editTextDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/formparking"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/email_background_ok"
+            android:ems="10"
+            android:hint="изберете датум"
+            android:padding="5dp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextDate"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            tools:text="Сетирајте временски слот:" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:addStatesFromChildren="false"
+            android:background="@color/cardview_light_background"
+            android:entries="@array/hours"
+            android:spinnerMode="dropdown"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/makersv_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinner"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/button_background"
+            android:padding="10dp"
+            android:text="make a reservation"
+            android:textColor="@color/textWhite" />
+
+    </RelativeLayout>
+
+</FrameLayout>
