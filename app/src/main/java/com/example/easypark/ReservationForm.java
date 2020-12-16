@@ -15,15 +15,8 @@ public class ReservationForm extends AppCompatActivity {
         setContentView(R.layout.activity_reservation_form);
 
         Fragment frag1 = getFragmentManager().findFragmentById(R.id.fragmentforma);
-        /*EditText cityname = findViewById(R.id.formcity);
+        Fragment frag2 = getFragmentManager().findFragmentById(R.id.fragmentspin);
 
-        String city = "city not set";
 
-        Bundle extras = getIntent().getExtras();
-        if(extras != null){
-            city = extras.getString("city");
-        }
-
-        cityname.setText(city);*/
     }
 }

@@ -6,17 +6,21 @@
     <string name="welcome_to_easypark">Welcome to EasyPark</string>
     <string name="log_in">Log In</string>
     <string name="password">Password</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="hours">
+        <item>09:00 - 10:00</item>
+        <item>10:00 - 11:00</item>
+        <item>11:00 - 12:00</item>
+        <item>12:00 - 13:00</item>
+        <item>13:00 - 14:00</item>
+        <item>14:00 - 15:00</item>
+        <item>15:00 - 16:00</item>
+        <item>16:00 - 17:00</item>
+        <item>17:00 - 18:00</item>
+        <item>18:00 - 19:00</item>
+        <item>19:00 - 20:00</item>
+        <item>20:00 - 21:00</item>
 
-    <item>60 минути</item>
-
-    <item>120 минути</item>
-
-    <item>180 минути</item>
-
-    <item>240 минути</item>
-
-</string-array>
+    </string-array>
 </resources>

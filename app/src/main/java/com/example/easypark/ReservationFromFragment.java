@@ -27,8 +27,8 @@ public class ReservationFromFragment extends Fragment {
         // Required empty public constructor
     }
     private static final String TAG = "ReservationFromFragment";
-    // private EditText displayDate;
-   // private DatePickerDialog.OnDateSetListener datesetlistener;
+    private TextView displayDate;
+    private DatePickerDialog.OnDateSetListener datesetlistener;
 
 
     @Override
@@ -44,14 +44,9 @@ public class ReservationFromFragment extends Fragment {
         }
         cityname.setText(city);
 
-        Button b = (Button) getActivity().findViewById(R.id.makersv_btn);
-        b.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View view){
-                Toast.makeText(getActivity().getApplicationContext(), "Успешна резервација!", Toast.LENGTH_SHORT).show();
-            }
-        });
 
-       /* displayDate = (EditText) getActivity().findViewById(R.id.editTextDate);
+
+        displayDate = (TextView) getActivity().findViewById(R.id.editTextDate);
         displayDate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -61,7 +56,7 @@ public class ReservationFromFragment extends Fragment {
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog picker = new DatePickerDialog(
-                        getActivity().getApplicationContext(),
+                        getContext(),
                         android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
                         datesetlistener,
                         year, month, day
@@ -81,7 +76,7 @@ public class ReservationFromFragment extends Fragment {
                 String date = dayOfMonth + "/" + month + "/" + year;
                 displayDate.setText(date);
             }
-        };*/
+        };
 
     }
 
