@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     if (s2.equals(s3)) {
                         Boolean check = db.checkemail(s1);
                         if (check == true) {
-                            Boolean insert = db.insert(s1, s2);
+                            Boolean insert = db.insert_1(s1, s2);
                             if (insert == true) {
                                 Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_SHORT).show();
                             }

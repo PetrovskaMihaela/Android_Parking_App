@@ -16,7 +16,6 @@ public class RecyclerCities extends AppCompatActivity {
     private RecyclerView recycler;
     private ArrayList<City> cityList;
     private cityAdapter.RecyclerViewClickListener listener;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +24,7 @@ public class RecyclerCities extends AppCompatActivity {
         cityList = new ArrayList<>();
         setCityInfo();
         setAdapter();
+
     }
 
     private void setAdapter() {

@@ -29,7 +29,6 @@ public class cityAdapter extends RecyclerView.Adapter<cityAdapter.cityViewHolder
 
     public class cityViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
 
-
         public TextView cityName;
         public ImageView cityPic;
         public Button rsrvButton;
