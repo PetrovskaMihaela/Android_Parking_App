@@ -1,5 +1,5 @@
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/cities"
+
+<androidx.recyclerview.widget.RecyclerView android:id="@+id/cities"
     android:scrollbars="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

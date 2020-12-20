@@ -13,18 +13,21 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class cityAdapter extends RecyclerView.Adapter<cityAdapter.cityViewHolder> {
-    private ArrayList<City> cityList;
+
     private int cityrowLayout;
     private Context cityContext;
     private RecyclerViewClickListener listener;
+    DatabaseHelper mDB;
 
-    public cityAdapter(ArrayList<City> cityList, int rowLayout, Context cityContext, RecyclerViewClickListener listener) {
-        this.cityList = cityList;
+    public cityAdapter(Context cityContext, DatabaseHelper db, int rowLayout, RecyclerViewClickListener listener) {
+
         this.cityrowLayout = rowLayout;
         this.cityContext = cityContext;
         this.listener = listener;
+        mDB = db;
     }
 
     public class cityViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
@@ -32,9 +35,11 @@ public class cityAdapter extends RecyclerView.Adapter<cityAdapter.cityViewHolder
         public TextView cityName;
         public ImageView cityPic;
         public Button rsrvButton;
+        public TextView cityInfo;
         public cityViewHolder(final View itemView) {
             super(itemView);
             cityName = (TextView) itemView.findViewById(R.id.cityname);
+            cityInfo = (TextView) itemView.findViewById(R.id.cityinfo);
             cityPic = (ImageView) itemView.findViewById(R.id.citypicture);
             rsrvButton = (Button) itemView.findViewById(R.id.rsrvbutton);
             rsrvButton.setOnClickListener(new View.OnClickListener() {
@@ -62,8 +67,47 @@ public class cityAdapter extends RecyclerView.Adapter<cityAdapter.cityViewHolder
 
     @Override
     public void onBindViewHolder(final cityViewHolder viewHolder, final int position){
-        String cityy = cityList.get(position).getCity();
-        viewHolder.cityName.setText(cityy);
+
+        City current =  mDB.query(position);
+
+        viewHolder.cityName.setText(current.getCityName());
+        //viewHolder.cityInfo.setText(current.getCityNumber());
+        /*if(viewHolder.cityName.getText() == "Скопје") {
+            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        }
+        if(viewHolder.cityName.getText() == "Велес") {
+            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        }
+        if(viewHolder.cityName.getText() == "Куманово") {
+            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        }
+        if(viewHolder.cityName.getText() == "Штип") {
+            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        }
+        if(viewHolder.cityName.getText() == "Гевгелија") {
+            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        }
+        if(viewHolder.cityName.getText() == "Струмица") {
+            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        }
+        if(viewHolder.cityName.getText() == "Битола") {
+            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        }
+        if(viewHolder.cityName.getText() == "Прилеп") {
+            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        }
+        if(viewHolder.cityName.getText() == "Охрид") {
+            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        }
+        if(viewHolder.cityName.getText() == "Гостивар") {
+            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        }
+        if(viewHolder.cityName.getText() == "Тетово") {
+            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        }*/
+        final cityViewHolder h = viewHolder;
+
+
 
         viewHolder.cityName.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -73,26 +117,10 @@ public class cityAdapter extends RecyclerView.Adapter<cityAdapter.cityViewHolder
             }
         });
 
-       /* viewHolder.rsrvButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener= new RecyclerViewClickListener() {
-                    @Override
-                    public void onClick(View v, int position) {
-                        Intent intent = new Intent(v.getContext(), ReservationForm.class);
-                        intent.putExtra("city",  viewHolder.cityName.getText());
-                        v.getContext().startActivity(intent);
-
-                    }
-                };
-
-
-            }
-        });*/
     }
     @Override
     public int getItemCount(){
-        return  cityList.size();
+        return (int) mDB.count();
     }
 
     public interface RecyclerViewClickListener{

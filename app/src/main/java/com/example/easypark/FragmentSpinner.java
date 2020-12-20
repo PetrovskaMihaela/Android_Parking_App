@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -27,10 +28,12 @@ public class FragmentSpinner extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Button b = (Button) getActivity().findViewById(R.id.makersv_btn);
+        final EditText city = (EditText) getActivity().findViewById(R.id.formcity);
         b.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View view){
                 Toast.makeText(getActivity().getApplicationContext(), "Одбрани датум и време!", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getActivity().getApplicationContext(), RecyclerPark.class);
+                i.putExtra("cityname", city.getText() );
                 startActivity(i);
             }
         });

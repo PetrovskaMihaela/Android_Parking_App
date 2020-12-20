@@ -17,6 +17,8 @@ public class ReservationForm extends AppCompatActivity {
         Fragment frag1 = getFragmentManager().findFragmentById(R.id.fragmentforma);
         Fragment frag2 = getFragmentManager().findFragmentById(R.id.fragmentspin);
 
+        EditText cityname = findViewById(R.id.formcity);
+
 
     }
 }

@@ -2,6 +2,9 @@ package com.example.easypark;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,27 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class parkAdapter extends RecyclerView.Adapter<parkAdapter.parkViewHolder> {
 
-
-    private ArrayList<City> parkingList;
-    private int parkrowLayout;
-    private Context parkContext;
-    parkAdapter.RecyclerViewClickListener listener;
-
-    public parkAdapter(ArrayList<City> parkingList, int rowLayout, Context parkContext, parkAdapter.RecyclerViewClickListener listener) {
-        this.parkingList = parkingList;
-        this.parkrowLayout = rowLayout;
-        this.parkContext = parkContext;
-        this.listener = listener;
-    }
-
-    public class parkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class parkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView parkName;
         public ImageView parkPic;
@@ -42,12 +34,10 @@ public class parkAdapter extends RecyclerView.Adapter<parkAdapter.parkViewHolder
             parkName = (TextView) itemView.findViewById(R.id.parkname);
             parkPic = (ImageView) itemView.findViewById(R.id.parkpicture);
             greenbtn = (Button) itemView.findViewById(R.id.greenbtn);
+            redbtn = (Button) itemView.findViewById(R.id.redbtn);
             greenbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                  /* Intent intent = new Intent(v.getContext(), ReservationForm.class);
-                   intent.putExtra("city",  cityName.getText());
-                   v.getContext().startActivity(intent);*/
                     Toast.makeText(itemView.getContext(), "број на слободни места", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -56,9 +46,6 @@ public class parkAdapter extends RecyclerView.Adapter<parkAdapter.parkViewHolder
             redbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                  /* Intent intent = new Intent(v.getContext(), ReservationForm.class);
-                   intent.putExtra("city",  cityName.getText());
-                   v.getContext().startActivity(intent);*/
                     Toast.makeText(itemView.getContext(), "број на зафатени места", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -70,16 +57,41 @@ public class parkAdapter extends RecyclerView.Adapter<parkAdapter.parkViewHolder
         }
     }
 
-    @Override
-    public parkAdapter.parkViewHolder onCreateViewHolder(ViewGroup parent, int i) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(parkrowLayout, parent, false);
-        return new parkAdapter.parkViewHolder(v);
+    private static final String TAG = parkAdapter.class.getSimpleName();
+
+
+    DatabaseHelper mDB;
+    private int parkrowlayout;
+    private Context parkContext;
+    parkAdapter.RecyclerViewClickListener listener;
+
+    public parkAdapter(Context parkContext, DatabaseHelper db,  int rowLayout, parkAdapter.RecyclerViewClickListener listener){
+        this.parkrowlayout = rowLayout;
+        this.parkContext = parkContext;
+        this.listener = listener;
+        mDB = db;
     }
 
     @Override
-    public void onBindViewHolder(final parkAdapter.parkViewHolder viewHolder, final int position) {
-        String parkk = parkingList.get(position).getCity();
-        viewHolder.parkName.setText(parkk);
+    public parkAdapter.parkViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(parkrowlayout, parent, false);
+        return new parkViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(parkViewHolder viewHolder,int position) {
+
+        String city = "city not set";
+
+
+
+
+        final parkViewHolder h = viewHolder;
+
+        Parking current = mDB.querypark(position);
+        viewHolder.parkName.setText(current.getParkName());
+
+
         viewHolder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -88,6 +100,8 @@ public class parkAdapter extends RecyclerView.Adapter<parkAdapter.parkViewHolder
                 //extra
             }
         });
+
+
         viewHolder.parkName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +115,7 @@ public class parkAdapter extends RecyclerView.Adapter<parkAdapter.parkViewHolder
     }
     @Override
     public int getItemCount(){
-        return  parkingList.size();
+        return (int) mDB.countpark();
     }
 
     public interface RecyclerViewClickListener {
