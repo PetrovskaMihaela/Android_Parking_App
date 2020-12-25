@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ReservationConfirmation"
-    android:background="@drawable/background">
+    android:background="@drawable/backgroundland">
 
     <TextView
         android:id="@+id/textt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
         android:text=" вашата резервација е успешна "
         android:textAlignment="center"
         android:textAllCaps="true"
@@ -23,12 +23,26 @@
         android:id="@+id/fragment1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="30dp"
         android:layout_centerVertical="true"
         tools:layout="@layout/fragment_conf1"
         android:layout_below="@id/textt"
         android:name="com.example.easypark.FragmentConf1"/>
+
+    <Button
+        android:id="@+id/potvrda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="потврди"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
+        android:background="@color/textWhite"
+        android:layout_marginTop="215dp"
+        android:layout_marginStart="135dp"
+        android:onClick="functionConfirm"
+        />
 
     <fragment
         android:id="@+id/fragment3"

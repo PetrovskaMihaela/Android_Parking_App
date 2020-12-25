@@ -21,13 +21,15 @@ public class cityAdapter extends RecyclerView.Adapter<cityAdapter.cityViewHolder
     private Context cityContext;
     private RecyclerViewClickListener listener;
     DatabaseHelper mDB;
+    String user;
 
-    public cityAdapter(Context cityContext, DatabaseHelper db, int rowLayout, RecyclerViewClickListener listener) {
+    public cityAdapter(Context cityContext, DatabaseHelper db, int rowLayout, RecyclerViewClickListener listener, String user) {
 
         this.cityrowLayout = rowLayout;
         this.cityContext = cityContext;
         this.listener = listener;
         mDB = db;
+        this.user = user;
     }
 
     public class cityViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
@@ -46,7 +48,8 @@ public class cityAdapter extends RecyclerView.Adapter<cityAdapter.cityViewHolder
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), ReservationForm.class);
-                    intent.putExtra("city",  cityName.getText());
+                    intent.putExtra("cityname",  cityName.getText());
+                    intent.putExtra( "username", user);
                     v.getContext().startActivity(intent);
                 }
             });
@@ -71,40 +74,42 @@ public class cityAdapter extends RecyclerView.Adapter<cityAdapter.cityViewHolder
         City current =  mDB.query(position);
 
         viewHolder.cityName.setText(current.getCityName());
-        //viewHolder.cityInfo.setText(current.getCityNumber());
-        /*if(viewHolder.cityName.getText() == "Скопје") {
-            viewHolder.cityPic.setImageResource(R.drawable.logo);
+
+        viewHolder.cityInfo.setText(String.valueOf(current.getCityNumber()));
+
+        if(viewHolder.cityName.getText().equals("Скопје") ) {
+            viewHolder.cityPic.setImageResource(R.drawable.skopje);
         }
-        if(viewHolder.cityName.getText() == "Велес") {
-            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        else if(viewHolder.cityName.getText().equals("Велес") ){
+            viewHolder.cityPic.setImageResource(R.drawable.veles);
         }
-        if(viewHolder.cityName.getText() == "Куманово") {
-            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        else if(viewHolder.cityName.getText().equals("Куманово")) {
+            viewHolder.cityPic.setImageResource(R.drawable.kumanovo);
         }
-        if(viewHolder.cityName.getText() == "Штип") {
-            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        else if(viewHolder.cityName.getText().equals("Штип")) {
+            viewHolder.cityPic.setImageResource(R.drawable.stip);
         }
-        if(viewHolder.cityName.getText() == "Гевгелија") {
-            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        else if(viewHolder.cityName.getText().equals("Гевгелија")) {
+            viewHolder.cityPic.setImageResource(R.drawable.gevgelija);
         }
-        if(viewHolder.cityName.getText() == "Струмица") {
-            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        else if(viewHolder.cityName.getText().equals("Струмица")) {
+            viewHolder.cityPic.setImageResource(R.drawable.strumica);
         }
-        if(viewHolder.cityName.getText() == "Битола") {
-            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        else if(viewHolder.cityName.getText().equals( "Битола") ){
+            viewHolder.cityPic.setImageResource(R.drawable.bitola);
         }
-        if(viewHolder.cityName.getText() == "Прилеп") {
-            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        else if(viewHolder.cityName.getText().equals("Прилеп") ){
+            viewHolder.cityPic.setImageResource(R.drawable.prilep);
         }
-        if(viewHolder.cityName.getText() == "Охрид") {
-            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        else if(viewHolder.cityName.getText().equals( "Охрид")) {
+            viewHolder.cityPic.setImageResource(R.drawable.ohrid);
         }
-        if(viewHolder.cityName.getText() == "Гостивар") {
-            viewHolder.cityPic.setImageResource(R.drawable.logo);
+        else if(viewHolder.cityName.getText().equals("Гостивар")) {
+            viewHolder.cityPic.setImageResource(R.drawable.gostivar);
         }
-        if(viewHolder.cityName.getText() == "Тетово") {
-            viewHolder.cityPic.setImageResource(R.drawable.logo);
-        }*/
+        else /*(viewHolder.cityName.getText().equals("Тетово"))*/ {
+            viewHolder.cityPic.setImageResource(R.drawable.tetovo);
+        }
         final cityViewHolder h = viewHolder;
 
 

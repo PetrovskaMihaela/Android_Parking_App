@@ -9,95 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
-import static android.content.Context.MODE_PRIVATE;
-
-/*public class DatabaseHelper extends SQLiteOpenHelper {
-
-
-    private static final String TAG = DatabaseHelper.class.getSimpleName();
-
-
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "EasyPark.db";
-    private static final String USER_TABLE= "user_entries";
-
-    public static final String EMAIL = "email";
-    public static final String PASSWORD = "password";
-
-    private static final String[] COLUMNS1 = {EMAIL, PASSWORD};
-
-    private static final String USER_TABLE_CREATE =
-            "CREATE TABLE USER_TABLE (EMAIL TEXT PRIMARY KEY, PASSWORD TEXT );";
-
-    private SQLiteDatabase mWritableDB;
-    private SQLiteDatabase mReadableDB;
-
-    public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        Log.d(TAG, "Construct DatabaseHelper");
-    }
-
-
-
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(USER_TABLE_CREATE);
-    }
-
-    public boolean insert_1(String email, String password){
-        SQLiteDatabase db = mWritableDB;
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("EMAIL", email);
-        contentValues.put("PASSWORD", password);
-        long ins = db.insert("USER_TABLE", null, contentValues);
-        if(ins == -1)
-            return false;
-        else return true;
-    }
-    public Boolean checkemail(String email){
-        SQLiteDatabase db = mReadableDB;
-        Cursor cursor = db.rawQuery("SELECT * FROM USER_TABLE WHERE EMAIL=?", new String[]{email});
-        if (cursor.getCount() > 0) {
-            cursor.close();
-            return false;
-        } else {
-            cursor.close();
-            return true;
-        }
-    }
-
-    public Boolean emailpassword(String email, String password){
-        SQLiteDatabase db = mReadableDB;
-        Cursor cursor = db.rawQuery("SELECT * FROM USER_TABLE WHERE EMAIL=? AND PASSWORD=?", new String[]{email, password});
-        if(cursor.getCount()>0){
-            cursor.close();
-            return true;
-        }
-        else {
-            cursor.close();
-            return false;
-        }
-    }
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        Log.w(DatabaseHelper.class.getName(),
-                "Upgrading database from version " + oldVersion + " to "
-                        + newVersion + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS USER_TABLE");
-        onCreate(db);
-
-    }
-}
-*/
-
-
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -105,14 +18,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public DatabaseHelper(Context context) {
-        super(context, "Login.db", null, 1);
+        super(context, "epark.db", null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("Create table user(email text primary key, password text)");
         db.execSQL("Create table city(cityname text primary key, citynumber int)");
-        db.execSQL("Create table park(parkName text primary key, cityNamee text,  parkSpaces int, takenSpaces int)");
+        db.execSQL("Create table park(parkName text primary key, cityNamee text,  parkSpaces int, takenSpaces int, lat double, long double)");
+
+        db.execSQL("Create table reservation(rowid int primary key, userR text, cityR text, parkR text, dateR text, timeR text )");
+
         fillCityWithData(db);
         fillParkWithData(db);
     }
@@ -125,14 +41,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists user");
         db.execSQL("drop table if exists city");
         db.execSQL("drop table if exists park");
+        db.execSQL("drop table if exists reservation");
+        onCreate(db);
 
+    }
+
+    public boolean insertReservation(String user, String city, String park, String date, String time){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("userR", user);
+        contentValues.put("cityR", city);
+        contentValues.put("parkR", park);
+        contentValues.put("dateR", date);
+        contentValues.put("timeR", time);
+        long ins = db.insert("reservation", null, contentValues);
+        if(ins == -1)
+            return false;
+        else return true;
     }
 
     public void fillCityWithData(SQLiteDatabase db) {
 
         String[] cities = {"Скопје", "Куманово", "Велес", "Штип", "Гевгелија", "Струмица", "Прилеп", "Битола", "Охрид", "Гостивар", "Тетово"};
-        int[] numbers = {7, 5, 3, 3, 4, 3, 2, 2, 3, 2, 2};
-        // Create a container for the data.
+        int[] numbers = {5, 2, 2, 2, 1, 1, 2, 2, 2, 1, 1};
+
         ContentValues values = new ContentValues();
 
         for (int i=0; i < cities.length;i++) {
@@ -144,41 +77,77 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
    private void fillParkWithData(SQLiteDatabase db) {
-        String[] parkingLots = {"Скопје1", "Скопје2", "Скопје3", "Скопје4", "Скопје5", "Скопје6", "Скопје7",
-                "Куманово1", "Куманово2", "Куманово3", "Куманово4", "Куманово5",
-                "Велес1", "Велес2", "Велес3",
-                "Штип1", "Штип2", "Штип3",
-                "Гевгелија1", "Гевгелија2", "Гевгелија3", "Гевгелија4",
-                "Струмица1", "Струмица2", "Струмица3",
-                "Прилеп1", "Прилеп2",
-                "Битола1","Битола2",
-                "Охрид1","Охрид2","Охрид3",
-                "Гостивар1","Гостивар2",
-                "Тетово1","Тетово2"};
+        String[] parkingLots = {"Паркинг City Mall", "Паркинг ГТЦ", "Паркинг Нова Македонија", "Катна Гаража Илинден", "Катна Гаража Кресненско Востание",
+                "Соколана", "Паркинг Kit Go",
+                "Паркинг Хемиска Гимнаија", "Паркинг Пазариште",
+                "Паркинг Дом на Култура", "Паркинг Автобуска Станица",
+                "Паркинг Железничка",
+                "Глобал Паркинг",
+                "Паркинг Гаража", "Паркинг Автобуска Станица",
+                "Паркинг Стара Болница","Паркинг Широк Сокак",
+                "ЈП Билјанини Извори","Паркинг Пристаниште",
+                "Паркинг Зона",
+                "Паркинг Тетово",};
 
-        String[] cityP= {"Скопје", "Скопје", "Скопје", "Скопје", "Скопје", "Скопје", "Скопје",
-                "Куманово", "Куманово", "Куманово", "Куманово", "Куманово",
-                "Велес", "Велес", "Велес",
-                "Штип", "Штип", "Штип",
-                "Гевгелија", "Гевгелија", "Гевгелија", "Гевгелија",
-                "Струмица", "Струмица", "Струмица",
+        String[] cityP= {"Скопје", "Скопје", "Скопје", "Скопје", "Скопје",
+                "Куманово", "Куманово",
+                "Велес", "Велес",
+                "Штип", "Штип",
+                "Гевгелија",
+                "Струмица",
                 "Прилеп", "Прилеп",
                 "Битола","Битола",
-                "Охрид","Охрид","Охрид",
-                "Гостивар","Гостивар",
-                "Тетово","Тетово"};
+                "Охрид","Охрид",
+                "Гостивар",
+                "Тетово"};
 
-        int[] spaces = {30, 30, 30, 30, 30, 30, 30, 20, 20, 20, 20, 20, 25, 25, 25, 33, 33, 33, 25, 25, 25, 25, 30, 30, 30, 34, 34, 25, 25, 33, 33, 33, 20, 20, 20, 20};
-        int zafateni = 0;
-        int free = 30;
+        double[] latitude = {42.005864, 41.994514, 41.993442, 41.985663 , 41.996776,
+                42.128971, 42.135614,
+                41.718129, 41.713903,
+                41.737259, 41.741124,
+                41.143215,
+                41.439633,
+                41.343759, 41.344044,
+                41.026927, 41.030836,
+                41.117588, 41.112351,
+                41.796165,
+                42.007646
+        };
+        double[] longitude = {21.392932, 21.437454, 21.422464, 21.465201, 21.437004,
+                21.718501, 21.728963,
+                21.772912, 21.785763,
+                22.190368, 22.189238,
+                22.512149,
+                22.639943,
+                21.551713, 21.540177,
+                21.333055, 21.334509,
+                20.798746, 20.799422,
+                20.908620,
+                20.968645
+        };
+
+        int[] free = {400, 250, 200, 180, 421,
+                150, 180,
+                150, 200,
+                125, 100,
+                120,
+                200,
+                250, 100,
+                165, 155,
+                250, 265,
+                220,
+                100};
+        int taken []= {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         ContentValues values = new ContentValues();
 
         for (int i=0; i < parkingLots.length;i++) {
-            // Put column/value pairs into the container, overriding existing values.
+
             values.put("parkName", parkingLots[i]);
             values.put("cityNamee", cityP[i]);
-            values.put("parkSpaces", free);
-            values.put("takenSpaces", zafateni);
+            values.put("parkSpaces", free[i]);
+            values.put("takenSpaces", taken[i]);
+            values.put("lat", latitude[i]);
+            values.put("long",longitude[i] );
             db.insert("park", null, values);
         }
     }
@@ -206,34 +175,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
       cursor = db.rawQuery(query, null);
       cursor.moveToFirst();
       entry.setCityName(cursor.getString(cursor.getColumnIndex("cityname")));
-      entry.setCityNumber(cursor.getColumnIndex("citynumber"));
+      entry.setCityNumber(cursor.getInt(cursor.getColumnIndex("citynumber")));
       cursor.close();
       return entry;
 
   }
 
 
-    public Parking querypark(int position) {
-        String query = "SELECT * FROM park ORDER BY parkName ASC " +
-                "LIMIT " + position + ",1";
 
-        Cursor cursor = null;
+    public Parking querypark(int position) {
+        //String query = "SELECT parkName, parkSpaces, takenSpaces FROM park WHERE cityNamee = ? ORDER BY parkName ASC LIMIT "+ position + ",1";
+
+        Cursor cursor;
         Parking entry = new Parking();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        cursor = db.rawQuery(query, null);
+        cursor = db.rawQuery( "Select * from park order by parkName asc limit " + position + ",1", null);
         cursor.moveToFirst();
 
         entry.setParkName(cursor.getString(cursor.getColumnIndex("parkName")));
         entry.setParkCity(cursor.getString(cursor.getColumnIndex("cityNamee")));
-        entry.setParkSpaces(cursor.getColumnIndex("parkSpaces"));
-        entry.setTakenSpaces(cursor.getColumnIndex("takenSpaces"));
+        entry.setParkSpaces(cursor.getInt(cursor.getColumnIndex("parkSpaces")));
+        entry.setTakenSpaces(cursor.getInt(cursor.getColumnIndex("takenSpaces")));
+        //entry.setLat(cursor.getDouble(cursor.getColumnIndex("lat")));
+        //entry.setLng(cursor.getDouble(cursor.getColumnIndex("lng")));
+
         cursor.close();
-        return entry;
+
+            return entry;
 
     }
 
-
+ 
 
     public long count() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -244,8 +217,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         return DatabaseUtils.queryNumEntries(this.getReadableDatabase(), "park");
     }
-
-
 
     public Boolean checkemail(String email){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -260,6 +231,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select * from user where email=? and password=?", new String[]{email, password});
         if(cursor.getCount()>0) return true;
         else return false;
+    }
+
+    public int numberResPerUser(String user){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("Select * from reservation where userR=?", new String[]{user});
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getCount();
+            cursor.close();
+            return count;
+        } else return 0;
+    }
+
+    public int numberResAtDateTime(String date, String time, String park){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("Select * from reservation where dateR=? and timeR=? and parkR=?", new String[]{date, time, park});
+        int number = 0;
+        if(cursor.moveToFirst()){
+            number = cursor.getCount();
+            cursor.close();
+            return number;
+        }else return 0;
+    }
+
+    public double latitude (String park){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("Select * from park where parkName=?", new String[]{park});
+        if(cursor.moveToFirst()){
+            return cursor.getDouble(4);
+        }else return 0;
+    }
+
+    public double longitude (String park){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("Select * from park where parkName=?", new String[]{park});
+        if(cursor.moveToFirst()){
+            return cursor.getDouble(5);
+        }else return 0;
     }
 
 

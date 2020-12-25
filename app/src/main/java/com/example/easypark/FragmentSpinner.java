@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -29,15 +30,7 @@ public class FragmentSpinner extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Button b = (Button) getActivity().findViewById(R.id.makersv_btn);
         final EditText city = (EditText) getActivity().findViewById(R.id.formcity);
-        b.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View view){
-                Toast.makeText(getActivity().getApplicationContext(), "Одбрани датум и време!", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getActivity().getApplicationContext(), RecyclerPark.class);
-                i.putExtra("cityname", city.getText() );
-                startActivity(i);
-            }
-        });
-
+        final TextView date = (TextView) getActivity().findViewById(R.id.editTextDate);
         final Spinner s = (Spinner) getActivity().findViewById(R.id.spinner);
         s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -50,12 +43,27 @@ public class FragmentSpinner extends Fragment {
                 Toast.makeText(getActivity().getApplicationContext(), "Не избравте ништо", Toast.LENGTH_SHORT).show();
             }
         });
+
+       /*b.setOnClickListener(new View.OnClickListener(){
+            @Override public void onClick(View view){
+                Toast.makeText(getActivity().getApplicationContext(), "Одбрани датум и време!", Toast.LENGTH_SHORT).show();
+
+
+                Intent i = new Intent(getActivity().getBaseContext(), RecyclerPark.class);
+
+                i.putExtra("cityname", String.valueOf(city));
+                i.putExtra("date", date.getText());
+                i.putExtra("time", s.getSelectedItem().toString());
+                startActivity(i);
+            }
+        });*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the activity_reservation_confirmation for this fragment
+
         return inflater.inflate(R.layout.fragment_spinner, container, false);
     }
 }

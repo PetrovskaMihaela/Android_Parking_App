@@ -30,6 +30,7 @@ public class Login extends AppCompatActivity {
                 if(Checkemailpass == true) {
                     Toast.makeText(getApplicationContext(), "Successfully Logged In", Toast.LENGTH_SHORT).show();
                     Intent i2 = new Intent(Login.this, RecyclerCities.class);
+                    i2.putExtra("user",email );
                     startActivity(i2);
                 }
                 else

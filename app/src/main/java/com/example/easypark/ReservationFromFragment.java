@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.dynamic.IFragmentWrapper;
+
 import java.util.Calendar;
 import java.util.Date;
 
 
 public class ReservationFromFragment extends Fragment {
+
+
 
     public ReservationFromFragment() {
         // Required empty public constructor
@@ -31,21 +36,20 @@ public class ReservationFromFragment extends Fragment {
     private DatePickerDialog.OnDateSetListener datesetlistener;
 
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         EditText cityname = getActivity().findViewById(R.id.formcity);
 
-        String city = "city not set";
+       /* String city = "city not set";
 
         Bundle extras = getActivity().getIntent().getExtras();
         if(extras != null){
             city = extras.getString("city");
         }
         cityname.setText(city);
-
-
-
+*/
         displayDate = (TextView) getActivity().findViewById(R.id.editTextDate);
         displayDate.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -77,6 +81,13 @@ public class ReservationFromFragment extends Fragment {
                 displayDate.setText(date);
             }
         };
+
+       /* Bundle b = new Bundle();
+        b.putString("city", city);
+        ReservationFromFragment frag = new ReservationFromFragment();
+        frag.setArguments(b);
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction().replace(R.id.content_frame), new FragmentSpinner()).commit();*/
 
     }
 

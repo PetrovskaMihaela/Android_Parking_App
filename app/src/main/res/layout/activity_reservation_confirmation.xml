@@ -29,6 +29,19 @@
         android:layout_below="@id/textt"
         android:name="com.example.easypark.FragmentConf1"/>
 
+    <Button
+        android:id="@+id/potvrda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="потврди"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
+        android:background="@color/textWhite"
+        android:layout_marginTop="325dp"
+        android:layout_centerHorizontal="true"
+        android:onClick="functionConfirm"
+       />
     <fragment
         android:id="@+id/fragment2"
         android:layout_width="wrap_content"

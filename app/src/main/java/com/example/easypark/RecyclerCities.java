@@ -1,15 +1,18 @@
 package com.example.easypark;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 
 public class RecyclerCities extends AppCompatActivity {
+
 
 
     private DatabaseHelper mDB;
@@ -24,14 +27,20 @@ public class RecyclerCities extends AppCompatActivity {
         mDB = new DatabaseHelper(this);
 
         recycler = findViewById(R.id.cities);
-        setAdapter();
 
+
+        String user="";
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            user = extras.getString("user");
+        }
+        setAdapter(user);
 
     }
 
-    private void setAdapter() {
+    private void setAdapter(String user) {
         //setOnClickListener();
-        cityAdapter adapter = new cityAdapter(this, mDB, R.layout.city_row, listener);
+        cityAdapter adapter = new cityAdapter(this, mDB, R.layout.city_row, listener,user );
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recycler.setLayoutManager(layoutManager);
         recycler.setItemAnimator(new DefaultItemAnimator());

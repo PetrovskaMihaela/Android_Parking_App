@@ -5,15 +5,19 @@ public class Parking {
     String parkCity;
     int parkSpaces;
     int takenSpaces;
+    double lat;
+    double lng;
 
     public Parking() {
     }
 
-    public Parking(String name, String city, int br, int zaf){
+    public Parking(String name, String city, int br, int zaf, double lat, double lng){
         this.parkName = name;
         this.parkCity = city;
         this.parkSpaces = br;
         this.takenSpaces = zaf;
+        this.lat = lat;
+        this.lng = lng;
 
     }
 
@@ -29,7 +33,21 @@ public class Parking {
         return parkCity;
     }
 
+    public double getLat() {
+        return lat;
+    }
 
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
 
     public void setParkCity(String parkCity) {
         this.parkCity = parkCity;
