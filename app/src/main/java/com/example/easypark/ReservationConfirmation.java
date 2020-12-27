@@ -1,16 +1,24 @@
 package com.example.easypark;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import java.util.Locale;
+
 
 public class ReservationConfirmation extends AppCompatActivity {
 
@@ -21,6 +29,10 @@ public class ReservationConfirmation extends AppCompatActivity {
     String park = "";
     DatabaseHelper db;
 
+    double lat;
+    double lng;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,15 +40,16 @@ public class ReservationConfirmation extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            Fragment frag1 = getFragmentManager().findFragmentById(R.id.fragment1);
+
+        }
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             Fragment frag1 = getFragmentManager().findFragmentById(R.id.fragment1);
             Fragment frag3 = getFragmentManager().findFragmentById(R.id.fragment3);
-        }else{
-            Fragment frag1 = getFragmentManager().findFragmentById(R.id.fragment1);
-            Fragment frag2 = getFragmentManager().findFragmentById(R.id.fragment2);
         }
 
-        Bundle extras = getIntent().getExtras();
+       Bundle extras = getIntent().getExtras();
         if(extras != null){
             city = extras.getString("city");
             user = extras.getString("user");
@@ -50,15 +63,44 @@ public class ReservationConfirmation extends AppCompatActivity {
         TextView datetext = (TextView) findViewById(R.id.dateconf);
         TextView timetext = (TextView) findViewById(R.id.hourconf);
 
-        TextView park2 = findViewById(R.id.help);
+
 
         citytext.setText(city);
         parktext.setText(park);
         datetext.setText(date);
         timetext.setText(hour);
 
-        park2.setText(park);
 
+
+        lat = db.latitude(park);
+        lng = db.longitude(park);
+
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(myToolbar);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_reserv, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent = null;
+        switch (item.getItemId())
+        {
+            case R.id.myreservations:
+                intent = new Intent(this, MyReservations.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void functionConfirm(View v){
@@ -68,17 +110,46 @@ public class ReservationConfirmation extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-             //   int rpu = db.numberResPerUser(user);
-             //   if (rpu < 3) {
+                int rpu;
+                rpu = db.numberResPerUser(user);
+                if (rpu < 3) {
+                if(hour.equals("")||date.equals("")){
+                    Toast.makeText(getApplicationContext(), "Some fields may be empty! Try again! ", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     Boolean insert = db.insertReservation(user, city, park, date, hour);
                     if (insert == true) {
                         Toast.makeText(getApplicationContext(), "Your reservation has been successfully made! ", Toast.LENGTH_SHORT).show();
                     }
-             /*   } else {
+                }
+
+              } else {
                     Toast.makeText(getApplicationContext(), "Only 3 reservations are allowed per user!", Toast.LENGTH_SHORT).show();
-                } */
+                }
             }
         });
 
+    }
+
+    public void functionNavigation(View v){
+
+        final Button navigation = findViewById(R.id.navbtn);
+
+        navigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "навигација", Toast.LENGTH_SHORT).show();
+
+
+                Intent i = new Intent();
+                i.setAction(Intent.ACTION_VIEW);
+                String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%s,%s", lat, lng);
+                i.setData(Uri.parse(uri));
+                i.setPackage("com.google.android.apps.maps");
+                if(i.resolveActivity(getPackageManager()) != null){
+                    startActivity(i);
+                }
+            }
+        });
     }
 }

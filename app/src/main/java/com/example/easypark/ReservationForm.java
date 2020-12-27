@@ -1,19 +1,22 @@
 package com.example.easypark;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.sip.SipSession;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
 public class ReservationForm extends AppCompatActivity {
     String city = "";
@@ -40,18 +43,37 @@ public class ReservationForm extends AppCompatActivity {
         }
         cityname.setText(city);
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(myToolbar);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_reserv, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent = null;
+        switch (item.getItemId())
+        {
+            case R.id.myreservations:
+                intent = new Intent(this, MyReservations.class);
+                intent.putExtra("user", username);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void functionClick(View v){
 
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);
-       // Intent intent = getIntent();
 
-                //intent.getStringExtra("cityname");
-        //String username = intent.getStringExtra("username");
-
-
-        //city = String.valueOf(cityname);
 
         TextView datepicker = (TextView) findViewById(R.id.editTextDate);
         String hour = spinner.getSelectedItem().toString();

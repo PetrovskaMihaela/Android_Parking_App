@@ -84,7 +84,6 @@ public class parkAdapter extends RecyclerView.Adapter<parkAdapter.parkViewHolder
         this.date = date;
         this.hour = hour;
         this.user = user;
-
     }
 
     @NonNull

@@ -24,6 +24,11 @@ import java.util.Scanner;
 
 public class MapsFragment extends Fragment {
 
+    double lat;
+    double lng;
+    String park;
+
+    DatabaseHelper db = new DatabaseHelper(getContext());
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
 
@@ -40,11 +45,17 @@ public class MapsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
 
+            Bundle extras = getActivity().getIntent().getExtras();
+            if(extras != null){
+                park = extras.getString("park");
+            }
+            db = new DatabaseHelper(getContext());
 
-            LatLng macedonia = new LatLng(41.6086, 21.7453);
-            googleMap.addMarker(new MarkerOptions().position(macedonia).title("Marker in Macedonia"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(macedonia));
-
+            lat = db.latitude(park);
+            lng = db.longitude(park);
+            LatLng parkMarker = new LatLng(lat, lng);
+            googleMap.addMarker(new MarkerOptions().position(parkMarker).title(park));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(parkMarker, 15.0f));
         }
 
 

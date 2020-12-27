@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    DatabaseHelper db;//DatabaseHelper db;
+    DatabaseHelper db;
     EditText e1, e2, e3;
     Button b1, b2;
 

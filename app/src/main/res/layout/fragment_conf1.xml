@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    tools:context=".ReservationFromFragment">
+    tools:context=".ReservationConfirmation">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -72,7 +72,21 @@
 
 
 
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/navbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:padding="10dp"
+            android:text="навигација"
+            android:layout_margin="30dp"
+            android:textColor="@color/textWhite"
+            android:layout_below="@id/container"
+            android:layout_centerHorizontal="true"
+            android:onClick="functionNavigation"/>
 
 
 

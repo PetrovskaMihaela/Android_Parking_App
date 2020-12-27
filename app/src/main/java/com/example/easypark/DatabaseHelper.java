@@ -4,13 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
-import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -206,6 +201,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public Reservation queryreservation(int position, String user){
+        Cursor cursor;
+        Reservation entry = new Reservation();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        cursor = db.rawQuery( "Select * from reservation where userR=? limit " + position + ",1", new String[]{user});
+        cursor.moveToFirst();
+
+        entry.setUserR(cursor.getString(cursor.getColumnIndex("userR")));
+        entry.setCityR(cursor.getString(cursor.getColumnIndex("cityR")));
+        entry.setParkR(cursor.getString(cursor.getColumnIndex("parkR")));
+        entry.setDateR(cursor.getString(cursor.getColumnIndex("dateR")));
+        entry.setTimeR(cursor.getString(cursor.getColumnIndex("timeR")));
+
+        cursor.close();
+
+        return entry;
+
+    }
+
  
 
     public long count() {
@@ -216,6 +231,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      public long countpark(){
         SQLiteDatabase db = this.getReadableDatabase();
         return DatabaseUtils.queryNumEntries(this.getReadableDatabase(), "park");
+    }
+
+    public long countreservation() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return DatabaseUtils.queryNumEntries(this.getReadableDatabase(), "reservation");
     }
 
     public Boolean checkemail(String email){
@@ -243,6 +263,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return count;
         } else return 0;
     }
+
+
 
     public int numberResAtDateTime(String date, String time, String park){
         SQLiteDatabase db = this.getReadableDatabase();

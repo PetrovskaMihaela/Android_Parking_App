@@ -7,13 +7,23 @@
     tools:context=".ReservationConfirmation"
     android:background="@drawable/background">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mytoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="#FFFFFF"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
     <TextView
         android:id="@+id/textt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_below="@id/mytoolbar"
         android:layout_marginTop="40dp"
-        android:text=" вашата резервација е успешна "
+        android:text=" последен чекор: кликнете потврди "
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary"
@@ -23,7 +33,7 @@
         android:id="@+id/fragment1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:layout_centerHorizontal="true"
         tools:layout="@layout/fragment_conf1"
         android:layout_below="@id/textt"
@@ -38,18 +48,12 @@
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary"
         android:background="@color/textWhite"
-        android:layout_marginTop="325dp"
+        android:layout_marginTop="360dp"
         android:layout_centerHorizontal="true"
+        android:clickable="true"
         android:onClick="functionConfirm"
        />
-    <fragment
-        android:id="@+id/fragment2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_conf2"
-        android:name="com.example.easypark.FragmentConf2"
-        android:layout_below="@id/fragment1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"/>
+
+
 
 </RelativeLayout>

@@ -1,49 +1,50 @@
 package com.example.easypark;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.widget.TextView;
 
 
-public class RecyclerCities extends AppCompatActivity {
+public class MyReservations extends AppCompatActivity {
+    String user = "";
+    String city = "";
+    String park = "";
+    String date = "";
+    String time = "";
+    int i = 0;
 
-
-
-
-    private DatabaseHelper mDB;
+    private DatabaseHelper db;
     private RecyclerView recycler;
-    private cityAdapter.RecyclerViewClickListener listener;
-    String pomUser = "";
+    private reservationAdapter.RecyclerViewClickListener listener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycler_cities);
+        setContentView(R.layout.activity_my_reservations);
 
-        mDB = new DatabaseHelper(this);
+        recycler = findViewById(R.id.my_reservations);
+        db = new DatabaseHelper(this);
 
-        recycler = findViewById(R.id.cities);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(myToolbar);
 
 
-        String user="";
+
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             user = extras.getString("user");
         }
-        setAdapter(user);
 
-        pomUser = user;
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.mytoolbar);
-        setSupportActionBar(myToolbar);
+        setAdapter(user);
 
     }
 
@@ -54,29 +55,13 @@ public class RecyclerCities extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent = null;
-        switch (item.getItemId())
-        {
-            case R.id.myreservations:
-                intent = new Intent(this, MyReservations.class);
-                intent.putExtra("user", pomUser);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-
     private void setAdapter(String user) {
-        cityAdapter adapter = new cityAdapter(this, mDB, R.layout.city_row, listener,user );
+
+        reservationAdapter adapter = new reservationAdapter(this, db, R.layout.reservation_row, listener, user);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recycler.setLayoutManager(layoutManager);
         recycler.setItemAnimator(new DefaultItemAnimator());
         recycler.setAdapter(adapter);
     }
-
 
 }

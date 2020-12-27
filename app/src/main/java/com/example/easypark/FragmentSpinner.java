@@ -44,19 +44,7 @@ public class FragmentSpinner extends Fragment {
             }
         });
 
-       /*b.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View view){
-                Toast.makeText(getActivity().getApplicationContext(), "Одбрани датум и време!", Toast.LENGTH_SHORT).show();
 
-
-                Intent i = new Intent(getActivity().getBaseContext(), RecyclerPark.class);
-
-                i.putExtra("cityname", String.valueOf(city));
-                i.putExtra("date", date.getText());
-                i.putExtra("time", s.getSelectedItem().toString());
-                startActivity(i);
-            }
-        });*/
     }
 
     @Override

@@ -1,16 +1,17 @@
 package com.example.easypark;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 
 public class RecyclerPark extends AppCompatActivity {
@@ -19,6 +20,12 @@ public class RecyclerPark extends AppCompatActivity {
     private RecyclerView recycler;
     private parkAdapter.RecyclerViewClickListener listener;
 
+    String city="";
+    String date="";
+    String hour="";
+    String user="";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,33 +33,49 @@ public class RecyclerPark extends AppCompatActivity {
 
         mDB = new DatabaseHelper(this);
 
-        String city="";
-        String date="";
-        String hour="";
-        String user="";
-        /*Bundle extras = getIntent().getExtras();
+
+        Bundle extras = getIntent().getExtras();
         if(extras != null){
+            user = extras.getString("username");
             city = extras.getString("city");
             date = extras.getString("date");
-            time = extras.getString("time");
-        }*/
+            hour = extras.getString("hour");
+        }
 
-        Intent intent = getIntent();
-        city = intent.getStringExtra("city");
-        date = intent.getStringExtra("date");
-        hour = intent.getStringExtra("hour");
-        user = intent.getStringExtra("user");
 
         recycler = findViewById(R.id.parkingplaces);
 
         setAdapter(city, date, hour, user);
 
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(myToolbar);
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_reserv, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.myreservations:
+                Intent intent = new Intent(this, MyReservations.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     private void setAdapter(String city, String date, String hour, String user) {
-        //setOnClickListener();
+
         parkAdapter adapter = new parkAdapter(this, mDB, R.layout.park_row, listener,city, date, hour, user);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recycler.setLayoutManager(layoutManager);

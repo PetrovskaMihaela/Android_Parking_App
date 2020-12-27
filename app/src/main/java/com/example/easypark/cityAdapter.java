@@ -53,7 +53,7 @@ public class cityAdapter extends RecyclerView.Adapter<cityAdapter.cityViewHolder
                     v.getContext().startActivity(intent);
                 }
             });
-            //itemView.setOnClickListener(this);
+
         }
 
         @Override

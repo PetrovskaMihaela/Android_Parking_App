@@ -7,14 +7,24 @@
     tools:context=".ReservationConfirmation"
     android:background="@drawable/backgroundland">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mytoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="#FFFFFF"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
     <TextView
         android:id="@+id/textt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-        android:text=" вашата резервација е успешна "
+        android:text=" последен чекор: кликнете потврди "
         android:textAlignment="center"
+        android:layout_below="@id/mytoolbar"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary"
         android:textSize="16sp" />
@@ -39,8 +49,8 @@
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary"
         android:background="@color/textWhite"
-        android:layout_marginTop="215dp"
-        android:layout_marginStart="135dp"
+        android:layout_marginTop="275dp"
+        android:layout_marginStart="140dp"
         android:onClick="functionConfirm"
         />
 
@@ -49,9 +59,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:layout="@layout/fragment_maps"
+        android:layout_below="@id/mytoolbar"
         android:name="com.example.easypark.MapsFragment"
-        android:layout_toRightOf="@id/fragment1"
+        android:layout_toEndOf="@id/fragment1"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="30dp"/>
+        android:layout_marginStart="30dp"/>
 
 </RelativeLayout>

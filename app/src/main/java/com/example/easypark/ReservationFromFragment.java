@@ -42,14 +42,7 @@ public class ReservationFromFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         EditText cityname = getActivity().findViewById(R.id.formcity);
 
-       /* String city = "city not set";
 
-        Bundle extras = getActivity().getIntent().getExtras();
-        if(extras != null){
-            city = extras.getString("city");
-        }
-        cityname.setText(city);
-*/
         displayDate = (TextView) getActivity().findViewById(R.id.editTextDate);
         displayDate.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -81,13 +74,6 @@ public class ReservationFromFragment extends Fragment {
                 displayDate.setText(date);
             }
         };
-
-       /* Bundle b = new Bundle();
-        b.putString("city", city);
-        ReservationFromFragment frag = new ReservationFromFragment();
-        frag.setArguments(b);
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.content_frame), new FragmentSpinner()).commit();*/
 
     }
 
